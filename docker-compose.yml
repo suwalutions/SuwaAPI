@@ -1,0 +1,20 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USER_NAME: ${USER_NAME}
+    container_name: ${USER_NAME}_${SERVICE_NAME}
+    hostname: ${HOSTNAME}
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TZ=Asia/Bangkok
+      - SERVER_HOST=${SERVER_HOST}
+    ports:
+      - ${SERVICE_PORT}:8000
+    volumes:
+      - ./run.sh/:/${USER_NAME}/run.sh
+      - ./requirements.txt:/${USER_NAME}/requirements.txt
+      - ./app:/${USER_NAME}/app
+    restart: unless-stopped
